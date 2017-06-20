@@ -3,7 +3,7 @@ from __future__ import with_statement
 import os.path
 import sys
 
-from mu_repo.config import Config
+from mu_repo.config import Config, SetQuietMode, IsQuietMode
 
 from . import backwards
 from .print_ import Print
@@ -159,6 +159,11 @@ def main(config_file=None, args=None, config=None):
             # On a help command, don't execute in multiple repos.
             config.repos = ['.']
             break
+
+        elif arg == '--quiet':
+            args.remove(arg)
+            # On compress, don't append carriage return
+            SetQuietMode(True)
 
     else:
         if not config.repos:

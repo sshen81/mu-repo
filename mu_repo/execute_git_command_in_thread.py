@@ -1,6 +1,6 @@
 from .print_ import RESET_COLOR, START_COLOR
 from mu_repo.backwards import AsStr
-from mu_repo.config import UseShellOnSubprocess
+from mu_repo.config import UseShellOnSubprocess, IsQuietMode
 from mu_repo.print_ import Print, PrintError
 import subprocess
 import threading
@@ -89,7 +89,8 @@ class ExecuteGitCommandThread(threading.Thread):
         shell = UseShellOnSubprocess()
         if serial:
             #Print directly to stdout/stderr without buffering.
-            Print(msg)
+            if not IsQuietMode():
+                Print(msg)
             p = None
             try:
                 p = subprocess.Popen(cmd, cwd=repo, shell=shell)
